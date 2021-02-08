@@ -1,0 +1,7 @@
+.sidebarContainer{
+    background: #140742 !important;
+    color: white;
+}
+.sideMenu> div>div {
+    padding: 0px 16px 0px 10px !important;
+}
