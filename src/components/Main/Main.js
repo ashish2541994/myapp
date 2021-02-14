@@ -11,6 +11,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+const axios = require('axios');
 class Main extends Component {
     constructor(props) {
         super(props)
@@ -23,23 +24,58 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        fetch("https://jsonplaceholder.typicode.com/todos/")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    console.log(result)
-                    this.setState({
-                        istableDataLoaded: true,
-                        tableData: result,
-                    }, this.showTable);
-                },
-                (error) => {
-                    this.setState({
-                        istableDataLoaded: true,
-                        error
-                    });
-                }
-            )
+        // fetch("https://jsonplaceholder.typicode.com/todos/")
+        //     .then(res => res.json())
+        //     .then(
+        //         (result) => {
+        //             console.log(result)
+        //             this.setState({
+        //                 istableDataLoaded: true,
+        //                 tableData: result,
+        //             }, this.showTable);
+        //         },
+        //         (error) => {
+        //             this.setState({
+        //                 istableDataLoaded: true,
+        //                 error
+        //             });
+        //         }
+        //     )
+        
+
+
+            //Post Data
+            axios.post('https://gorest.co.in/public-api/users', {
+                name: 'Bramajee',
+                email: 'abc@gmail.com',
+                gender:'Male',
+
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+
+              axios.get('https://gorest.co.in/public-api/users')
+              .then(function (response) {
+                  // handle success
+                  console.log(response);
+                  this.setState({
+                      istableDataLoaded: true,
+                      tableData: response.data.data,
+                  }, this.showTable);
+              }.bind(this))
+              .catch(function (error) {
+                  // handle error
+                  console.log(error);
+                  this.setState({
+                      istableDataLoaded: true,
+                      error
+                  });
+              }.bind(this));
+
     }
 
     showTable = () => {
@@ -55,17 +91,17 @@ class Main extends Component {
                         <Table>
                             <TableHeader>
                                 <TableRow hoverable={this.state.hoverable} striped={this.state.striped}>
-                                    <TableHeaderColumn>User ID</TableHeaderColumn>
-                                    <TableHeaderColumn>title</TableHeaderColumn>
-                                    <TableHeaderColumn>Is Completed</TableHeaderColumn>
+                                    <TableHeaderColumn>Name</TableHeaderColumn>
+                                    <TableHeaderColumn>Email</TableHeaderColumn>
+                                    <TableHeaderColumn>Gender</TableHeaderColumn>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {this.state.tableData.map((row) =>
                                     <TableRow>
-                                        <TableRowColumn>{row.userId}</TableRowColumn>
-                                        <TableRowColumn>{row.title}</TableRowColumn>
-                                        <TableRowColumn>{row.completed}</TableRowColumn>
+                                        <TableRowColumn>{row.name}</TableRowColumn>
+                                        <TableRowColumn>{row.email}</TableRowColumn>
+                                        <TableRowColumn>{row.gender}</TableRowColumn>
                                     </TableRow>
                                 )}
 
